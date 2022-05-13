@@ -1,4 +1,4 @@
-import { Event, EventHint, Options, Session, Severity, Transport } from '@sentry/types';
+import { Event, EventHint, Options, SessionContext, Severity, Transport } from '@sentry/types';
 import { isDebugBuild, logger, SentryError } from '@sentry/utils';
 
 import { initAPIDetails } from './api';
@@ -38,7 +38,7 @@ export interface Backend {
   sendEvent(event: Event): void;
 
   /** Submits the session to Sentry */
-  sendSession(session: Session): void;
+  sendSession(session: SessionContext): void;
 
   /**
    * Returns the transport that is used by the backend.
@@ -119,7 +119,7 @@ export abstract class BaseBackend<O extends Options> implements Backend {
   /**
    * @inheritDoc
    */
-  public sendSession(session: Session): void {
+  public sendSession(session: SessionContext): void {
     if (!this._transport.sendSession) {
       isDebugBuild() && logger.warn("Dropping session because custom transport doesn't implement sendSession");
       return;

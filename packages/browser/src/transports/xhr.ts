@@ -1,4 +1,4 @@
-import { Event, Response, SentryRequest, Session } from '@sentry/types';
+import { Event, Response, SentryRequest, SessionContext } from '@sentry/types';
 import { SentryError, SyncPromise } from '@sentry/utils';
 
 import { BaseTransport } from './base';
@@ -9,7 +9,7 @@ export class XHRTransport extends BaseTransport {
    * @param sentryRequest Prepared SentryRequest to be delivered
    * @param originalPayload Original payload used to create SentryRequest
    */
-  protected _sendRequest(sentryRequest: SentryRequest, originalPayload: Event | Session): PromiseLike<Response> {
+  protected _sendRequest(sentryRequest: SentryRequest, originalPayload: Event | SessionContext): PromiseLike<Response> {
     // eslint-disable-next-line deprecation/deprecation
     if (this._isRateLimited(sentryRequest.type)) {
       this.recordLostEvent('ratelimit_backoff', sentryRequest.type);

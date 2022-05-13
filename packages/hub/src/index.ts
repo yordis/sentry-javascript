@@ -1,5 +1,5 @@
 export { addGlobalEventProcessor, Scope } from './scope';
-export { Session } from './session';
+export { closeSession, updateSession, makeSession } from './session';
 export { SessionFlusher } from './sessionflusher';
 export {
   // eslint-disable-next-line deprecation/deprecation

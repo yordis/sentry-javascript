@@ -13,7 +13,7 @@ import {
   Response as SentryResponse,
   SentryRequest,
   SentryRequestType,
-  Session,
+  SessionContext,
   Transport,
   TransportOptions,
 } from '@sentry/types';
@@ -84,7 +84,7 @@ export abstract class BaseTransport implements Transport {
   /**
    * @inheritDoc
    */
-  public sendSession(session: Session): PromiseLike<SentryResponse> {
+  public sendSession(session: SessionContext): PromiseLike<SentryResponse> {
     return this._sendRequest(sessionToSentryRequest(session, this._api), session);
   }
 
@@ -207,6 +207,6 @@ export abstract class BaseTransport implements Transport {
 
   protected abstract _sendRequest(
     sentryRequest: SentryRequest,
-    originalPayload: Event | Session,
+    originalPayload: Event | SessionContext,
   ): PromiseLike<SentryResponse>;
 }

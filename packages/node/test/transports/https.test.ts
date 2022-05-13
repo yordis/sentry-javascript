@@ -1,4 +1,4 @@
-import { Session } from '@sentry/hub';
+import { makeSession } from '@sentry/hub';
 import { SessionAggregates, TransportOptions } from '@sentry/types';
 import { SentryError } from '@sentry/utils';
 import * as https from 'https';
@@ -85,7 +85,7 @@ describe('HTTPSTransport', () => {
 
   test('send 200 session', async () => {
     const transport = createTransport({ dsn });
-    await transport.sendSession(new Session());
+    await transport.sendSession(makeSession());
 
     const requestOptions = (transport.module!.request as jest.Mock).mock.calls[0][0];
     assertBasicOptions(requestOptions, true);
@@ -97,7 +97,7 @@ describe('HTTPSTransport', () => {
     const transport = createTransport({ dsn });
 
     try {
-      await transport.sendSession(new Session());
+      await transport.sendSession(makeSession());
     } catch (e) {
       const requestOptions = (transport.module!.request as jest.Mock).mock.calls[0][0];
       assertBasicOptions(requestOptions, true);

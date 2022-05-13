@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { Scope, Session } from '@sentry/hub';
+import { Scope, updateSession } from '@sentry/hub';
 import {
   Client,
   DsnComponents,
@@ -8,6 +8,7 @@ import {
   Integration,
   IntegrationClass,
   Options,
+  SessionContext,
   Severity,
   Transport,
 } from '@sentry/types';
@@ -171,7 +172,7 @@ export abstract class BaseClient<B extends Backend, O extends Options> implement
   /**
    * @inheritDoc
    */
-  public captureSession(session: Session): void {
+  public captureSession(session: SessionContext): void {
     if (!this._isEnabled()) {
       isDebugBuild() && logger.warn('SDK not enabled, will not capture session.');
       return;
@@ -182,7 +183,7 @@ export abstract class BaseClient<B extends Backend, O extends Options> implement
     } else {
       this._sendSession(session);
       // After sending, we set init false to indicate it's not the first occurrence
-      session.update({ init: false });
+      updateSession(session, { init: false });
     }
   }
 
@@ -250,7 +251,7 @@ export abstract class BaseClient<B extends Backend, O extends Options> implement
   }
 
   /** Updates existing session based on the provided event */
-  protected _updateSessionFromEvent(session: Session, event: Event): void {
+  protected _updateSessionFromEvent(session: SessionContext, event: Event): void {
     let crashed = false;
     let errored = false;
     const exceptions = event.exception && event.exception.values;
@@ -274,7 +275,7 @@ export abstract class BaseClient<B extends Backend, O extends Options> implement
     const shouldUpdateAndSend = (sessionNonTerminal && session.errors === 0) || (sessionNonTerminal && crashed);
 
     if (shouldUpdateAndSend) {
-      session.update({
+      updateSession(session, {
         ...(crashed && { status: 'crashed' }),
         errors: session.errors || Number(errored || crashed),
       });
@@ -283,7 +284,7 @@ export abstract class BaseClient<B extends Backend, O extends Options> implement
   }
 
   /** Deliver captured session to Sentry */
-  protected _sendSession(session: Session): void {
+  protected _sendSession(session: SessionContext): void {
     this._getBackend().sendSession(session);
   }
 

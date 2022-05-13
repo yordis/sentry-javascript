@@ -3,7 +3,7 @@ import { Event } from './event';
 import { SentryRequestType } from './request';
 import { Response } from './response';
 import { SdkMetadata } from './sdkmetadata';
-import { Session, SessionAggregates } from './session';
+import { SessionAggregates, SessionContext } from './session';
 
 export type Outcome =
   | 'before_send'
@@ -27,7 +27,7 @@ export interface Transport {
    *
    * @param session Session that should be sent to Sentry | Session Aggregates that should be sent to Sentry.
    */
-  sendSession?(session: Session | SessionAggregates): PromiseLike<Response>;
+  sendSession?(session: SessionContext | SessionAggregates): PromiseLike<Response>;
 
   /**
    * Wait for all events to be sent or the timeout to expire, whichever comes first.

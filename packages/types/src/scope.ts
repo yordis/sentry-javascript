@@ -3,7 +3,7 @@ import { Context, Contexts } from './context';
 import { EventProcessor } from './eventprocessor';
 import { Extra, Extras } from './extra';
 import { Primitive } from './misc';
-import { RequestSession, Session } from './session';
+import { RequestSession, SessionContext } from './session';
 import { Severity } from './severity';
 import { Span } from './span';
 import { Transaction } from './transaction';
@@ -114,12 +114,12 @@ export interface Scope {
   /**
    * Returns the `Session` if there is one
    */
-  getSession(): Session | undefined;
+  getSession(): SessionContext | undefined;
 
   /**
    * Sets the `Session` on the scope
    */
-  setSession(session?: Session): this;
+  setSession(session?: SessionContext): this;
 
   /**
    * Returns the `RequestSession` if there is one

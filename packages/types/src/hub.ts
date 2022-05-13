@@ -5,7 +5,7 @@ import { Extra, Extras } from './extra';
 import { Integration, IntegrationClass } from './integration';
 import { Primitive } from './misc';
 import { Scope } from './scope';
-import { Session, SessionContext } from './session';
+import { SessionContext } from './session';
 import { Severity } from './severity';
 import { Span, SpanContext } from './span';
 import { CustomSamplingContext, Transaction, TransactionContext } from './transaction';
@@ -216,7 +216,7 @@ export interface Hub {
    *
    * @returns The session which was just started
    */
-  startSession(context?: SessionContext): Session;
+  startSession(context?: SessionContext): SessionContext;
 
   /**
    * Ends the session that lives on the current scope and sends it to Sentry

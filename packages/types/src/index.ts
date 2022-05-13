@@ -38,7 +38,6 @@ export { SdkMetadata } from './sdkmetadata';
 export {
   SessionAggregates,
   AggregationCounts,
-  Session,
   SessionContext,
   SessionStatus,
   RequestSession,

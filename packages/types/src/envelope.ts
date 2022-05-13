@@ -1,7 +1,7 @@
 import { ClientReport } from './clientreport';
 import { Event } from './event';
 import { SdkInfo } from './sdkinfo';
-import { Session, SessionAggregates } from './session';
+import { SessionAggregates, SessionContext } from './session';
 import { TransactionSamplingMethod } from './transaction';
 import { UserFeedback } from './user';
 
@@ -43,7 +43,7 @@ export type EventItem = BaseEnvelopeItem<EventItemHeaders, Event | string>;
 export type AttachmentItem = BaseEnvelopeItem<AttachmentItemHeaders, unknown>;
 export type UserFeedbackItem = BaseEnvelopeItem<UserFeedbackItemHeaders, UserFeedback>;
 export type SessionItem =
-  | BaseEnvelopeItem<SessionItemHeaders, Session>
+  | BaseEnvelopeItem<SessionItemHeaders, SessionContext>
   | BaseEnvelopeItem<SessionAggregatesItemHeaders, SessionAggregates>;
 export type ClientReportItem = BaseEnvelopeItem<ClientReportItemHeaders, ClientReport>;
 

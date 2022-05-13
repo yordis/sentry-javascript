@@ -3,7 +3,7 @@ import { Event, EventHint } from './event';
 import { Integration, IntegrationClass } from './integration';
 import { Options } from './options';
 import { Scope } from './scope';
-import { Session } from './session';
+import { SessionContext } from './session';
 import { Severity } from './severity';
 import { Transport } from './transport';
 
@@ -52,7 +52,7 @@ export interface Client<O extends Options = Options> {
    *
    * @param session Session to be delivered
    */
-  captureSession?(session: Session): void;
+  captureSession?(session: SessionContext): void;
 
   /** Returns the current Dsn. */
   getDsn(): DsnComponents | undefined;

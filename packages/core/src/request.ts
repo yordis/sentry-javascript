@@ -5,8 +5,8 @@ import {
   SdkInfo,
   SentryRequest,
   SentryRequestType,
-  Session,
   SessionAggregates,
+  SessionContext,
   SessionEnvelope,
   SessionItem,
 } from '@sentry/types';
@@ -41,7 +41,7 @@ function enhanceEventWithSdkInfo(event: Event, sdkInfo?: SdkInfo): Event {
 
 /** Creates an envelope from a Session */
 export function createSessionEnvelope(
-  session: Session | SessionAggregates,
+  session: SessionContext | SessionAggregates,
   api: APIDetails,
 ): [SessionEnvelope, SentryRequestType] {
   const sdkInfo = getSdkMetadataForEnvelopeHeader(api);
@@ -62,7 +62,7 @@ export function createSessionEnvelope(
 }
 
 /** Creates a SentryRequest from a Session. */
-export function sessionToSentryRequest(session: Session | SessionAggregates, api: APIDetails): SentryRequest {
+export function sessionToSentryRequest(session: SessionContext | SessionAggregates, api: APIDetails): SentryRequest {
   const [envelope, type] = createSessionEnvelope(session, api);
   return {
     body: serializeEnvelope(envelope),

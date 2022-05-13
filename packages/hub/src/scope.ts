@@ -13,6 +13,7 @@ import {
   RequestSession,
   Scope as ScopeInterface,
   ScopeContext,
+  SessionContext,
   Severity,
   Span,
   Transaction,
@@ -20,7 +21,7 @@ import {
 } from '@sentry/types';
 import { dateTimestampInSeconds, getGlobalObject, isPlainObject, isThenable, SyncPromise } from '@sentry/utils';
 
-import { Session } from './session';
+import { updateSession } from './session';
 
 /**
  * Absolute maximum number of breadcrumbs added to an event.
@@ -70,7 +71,7 @@ export class Scope implements ScopeInterface {
   protected _span?: Span;
 
   /** Session */
-  protected _session?: Session;
+  protected _session?: SessionContext;
 
   /** Request Mode Session Status */
   protected _requestSession?: RequestSession;
@@ -126,7 +127,7 @@ export class Scope implements ScopeInterface {
   public setUser(user: User | null): this {
     this._user = user || {};
     if (this._session) {
-      this._session.update({ user });
+      updateSession(this._session, { user });
     }
     this._notifyScopeListeners();
     return this;
@@ -275,7 +276,7 @@ export class Scope implements ScopeInterface {
   /**
    * @inheritDoc
    */
-  public setSession(session?: Session): this {
+  public setSession(session?: SessionContext): this {
     if (!session) {
       delete this._session;
     } else {
@@ -288,7 +289,7 @@ export class Scope implements ScopeInterface {
   /**
    * @inheritDoc
    */
-  public getSession(): Session | undefined {
+  public getSession(): SessionContext | undefined {
     return this._session;
   }
 

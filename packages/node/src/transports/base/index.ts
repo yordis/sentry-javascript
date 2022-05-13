@@ -5,8 +5,8 @@ import {
   Response,
   SentryRequest,
   SentryRequestType,
-  Session,
   SessionAggregates,
+  SessionContext,
   Transport,
   TransportOptions,
 } from '@sentry/types';
@@ -191,7 +191,7 @@ export abstract class BaseTransport implements Transport {
   /** JSDoc */
   protected async _send(
     sentryRequest: SentryRequest,
-    originalPayload?: Event | Session | SessionAggregates,
+    originalPayload?: Event | SessionContext | SessionAggregates,
   ): Promise<Response> {
     if (!this.module) {
       throw new SentryError('No module available');
